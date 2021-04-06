@@ -1,10 +1,13 @@
-﻿using Domain.Enums;
+﻿using Domain.Entities;
+using Domain.Enums;
 using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
 
 namespace Infrastructure.Identity
 {
     public class ApplicationUser : IdentityUser
     {
-        public SellerType Type { get; set; }
+        public SellerType SellerType { get; set; }
+        public ICollection<Post> Posts { get; set; }
     }
 }

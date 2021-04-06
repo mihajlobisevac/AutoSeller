@@ -2,6 +2,7 @@
 {
     public enum BodyStyle
     {
+        Unknown,
         Sedan,
         Coupe,
         Sports,
@@ -18,6 +19,7 @@
 
     public enum Drivetrain
     {
+        Unknown,
         RearWheel,
         FrontWheel,
         AllWheel
@@ -25,6 +27,7 @@
 
     public enum Transmission
     {
+        Unknown,
         Manual,
         Automatic,
         SemiAutomatic,
