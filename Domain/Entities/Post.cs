@@ -9,7 +9,7 @@ namespace Domain.Entities
         public string Description { get; set; }
         public DateTime Date { get; set; }
         public string Location { get; set; }
-        //public ISeller Seller { get; set; }
+        public string SellerId { get; set; }
         public Vehicle Vehicle { get; set; }
     }
 }
