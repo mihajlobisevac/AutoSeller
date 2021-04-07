@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Interaces;
+using System;
 
 namespace Domain.Entities
 {
@@ -9,7 +10,7 @@ namespace Domain.Entities
         public string Description { get; set; }
         public DateTime Date { get; set; }
         public string Location { get; set; }
-        public string SellerId { get; set; }
+        public IApplicationUser Seller { get; set; }
         public Vehicle Vehicle { get; set; }
     }
 }
