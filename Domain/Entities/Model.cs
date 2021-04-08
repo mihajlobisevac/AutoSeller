@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Domain.Common;
+using System.Collections.Generic;
 
 namespace Domain.Entities
 {
-    public class Model
+    public class Model : AuditableEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }

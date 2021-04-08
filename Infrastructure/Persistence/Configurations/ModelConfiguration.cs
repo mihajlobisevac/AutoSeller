@@ -11,6 +11,12 @@ namespace Infrastructure.Persistence.Configurations
             builder.Property(t => t.Name)
                 .HasMaxLength(200)
                 .IsRequired();
+
+            builder.Property(t => t.CreatedBy)
+                .HasMaxLength(450);
+
+            builder.Property(t => t.LastModifiedBy)
+                .HasMaxLength(450);
         }
     }
 }

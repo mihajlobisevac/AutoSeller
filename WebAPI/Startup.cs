@@ -1,18 +1,13 @@
 using Application;
+using Application.Common.Interfaces;
 using Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using WebAPI.Services;
 
 namespace WebAPI
 {
@@ -30,6 +25,10 @@ namespace WebAPI
         {
             services.AddApplication();
             services.AddInfrastructure(Configuration);
+
+            services.AddSingleton<ICurrentUserService, CurrentUserService>();
+
+            services.AddHttpContextAccessor();
 
             services.AddControllers();
 

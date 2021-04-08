@@ -1,8 +1,9 @@
-﻿using Domain.Enums;
+﻿using Domain.Common;
+using Domain.Enums;
 
 namespace Domain.Entities
 {
-    public class Vehicle
+    public class Vehicle : AuditableEntity
     {
         public int Id { get; set; }
         public int Year { get; set; }
