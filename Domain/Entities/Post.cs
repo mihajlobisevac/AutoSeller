@@ -1,5 +1,6 @@
 ﻿using Domain.Common;
 using System;
+using System.Collections.Generic;
 
 namespace Domain.Entities
 {
@@ -11,5 +12,6 @@ namespace Domain.Entities
         public DateTime Date { get; set; }
         public string Location { get; set; }
         public Vehicle Vehicle { get; set; }
+        public ICollection<Image> Images { get; set; }
     }
 }

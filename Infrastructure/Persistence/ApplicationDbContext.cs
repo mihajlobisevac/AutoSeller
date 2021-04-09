@@ -29,6 +29,7 @@ namespace Infrastructure.Persistence
         }
 
         public DbSet<Brand> Brands { get; set; }
+        public DbSet<Image> Images { get; set; }
         public DbSet<Model> Models { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }
