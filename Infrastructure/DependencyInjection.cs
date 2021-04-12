@@ -23,6 +23,8 @@ namespace Infrastructure
 
             services.AddTransient<IDateTime, DateTimeService>();
 
+            services.AddScoped<IIdentityService, IdentityService>();
+
             return services;
         }
     }
