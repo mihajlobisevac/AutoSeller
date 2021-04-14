@@ -7,7 +7,7 @@ namespace WebAPI.Controllers.V1
     public class UsersController : ApiControllerBase
     {
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] CreateUser.Query user)
+        public async Task<IActionResult> Register([FromBody] CreateUser.Command user)
         {
             var result = await Mediator.Send(user);
 
