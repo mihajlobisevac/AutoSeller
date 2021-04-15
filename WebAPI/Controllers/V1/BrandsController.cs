@@ -37,5 +37,15 @@ namespace WebAPI.Controllers.V1
                 ? Ok(createdBrand)
                 : BadRequest(createdBrand);
         }
+
+        [HttpPut]
+        public async Task<IActionResult> EditById([FromBody] EditBrand.Command brand)
+        {
+            var editedBrand = await Mediator.Send(brand);
+
+            return editedBrand is not null
+                ? Ok(editedBrand)
+                : BadRequest(editedBrand);
+        }
     }
 }
