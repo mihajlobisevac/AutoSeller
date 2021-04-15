@@ -1,4 +1,5 @@
-﻿using Application.V1.Brands.Queries;
+﻿using Application.V1.Brands.Commands;
+using Application.V1.Brands.Queries;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,6 +26,16 @@ namespace WebAPI.Controllers.V1
             return brand is not null
                 ? Ok(brand)
                 : NotFound();
+        }
+
+        [HttpPost()]
+        public async Task<IActionResult> Create([FromBody] CreateBrand.Command brand)
+        {
+            var createdBrand = await Mediator.Send(brand);
+
+            return createdBrand is not null
+                ? Ok(createdBrand)
+                : BadRequest(createdBrand);
         }
     }
 }
