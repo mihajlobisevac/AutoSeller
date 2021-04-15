@@ -7,14 +7,14 @@ namespace Application.V1.Users.Commands
 {
     public static class CreateUser
     {
-        public record Query : IRequest<Response>
+        public record Command : IRequest<Response>
         {
             public string Username { get; init; }
             public string Email { get; init; }
             public string Password { get; init; }
         }
 
-        public class Handler : IRequestHandler<Query, Response>
+        public class Handler : IRequestHandler<Command, Response>
         {
             private readonly IIdentityService _identityService;
 
@@ -23,7 +23,7 @@ namespace Application.V1.Users.Commands
                 _identityService = identityService;
             }
 
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
             {
                 var emailAvailable = await _identityService.EmailAvailableAsync(request.Email);
 
