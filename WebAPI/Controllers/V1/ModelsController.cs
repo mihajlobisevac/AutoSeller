@@ -24,7 +24,17 @@ namespace WebAPI.Controllers.V1
 
             return createdModel is not null
                 ? Ok(createdModel)
-                : BadRequest(createdModel);
+                : BadRequest();
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> EditById([FromBody] EditModel.Command model)
+        {
+            var editedModel = await Mediator.Send(model);
+
+            return editedModel is not null
+                ? Ok(editedModel)
+                : BadRequest();
         }
     }
 }
