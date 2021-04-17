@@ -28,7 +28,7 @@ namespace WebAPI.Controllers.V1
                 : NotFound();
         }
 
-        [HttpPost()]
+        [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateBrand.Command brand)
         {
             var createdBrand = await Mediator.Send(brand);
