@@ -10,10 +10,20 @@ namespace WebAPI.Controllers.V1
         [HttpGet("by-brandname/{brandName}")]
         public async Task<IActionResult> GetByBrandName(string brandName)
         {
-            var brands = await Mediator.Send(new GetModelsByBrandName.Query(brandName));
+            var models = await Mediator.Send(new GetModelsByBrandName.Query(brandName));
 
-            return brands is not null
-                ? Ok(brands)
+            return models is not null
+                ? Ok(models)
+                : NotFound();
+        }
+
+        [HttpGet("by-brandid/{brandId}")]
+        public async Task<IActionResult> GetByBrandId(int brandId)
+        {
+            var models = await Mediator.Send(new GetModelsByBrandId.Query(brandId));
+
+            return models is not null
+                ? Ok(models)
                 : NotFound();
         }
 
