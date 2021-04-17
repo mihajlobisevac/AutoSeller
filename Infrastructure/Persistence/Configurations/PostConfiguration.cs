@@ -19,6 +19,9 @@ namespace Infrastructure.Persistence.Configurations
             builder.Property(t => t.Location)
                 .HasMaxLength(200);
 
+            builder.Property(t => t.Engine)
+                .HasMaxLength(200);
+
             builder.Property(t => t.CreatedBy)
                 .HasMaxLength(450);
 
