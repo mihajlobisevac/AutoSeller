@@ -28,14 +28,14 @@ namespace WebAPI.Controllers.V1
                 : NotFound();
         }
 
-        [HttpPost()]
+        [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateBrand.Command brand)
         {
             var createdBrand = await Mediator.Send(brand);
 
             return createdBrand is not null
                 ? Ok(createdBrand)
-                : BadRequest(createdBrand);
+                : BadRequest();
         }
 
         [HttpPut]
@@ -45,7 +45,7 @@ namespace WebAPI.Controllers.V1
 
             return editedBrand is not null
                 ? Ok(editedBrand)
-                : BadRequest(editedBrand);
+                : BadRequest();
         }
     }
 }
