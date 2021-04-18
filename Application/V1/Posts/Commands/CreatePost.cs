@@ -1,6 +1,4 @@
 ﻿using Application.Common.Interfaces;
-using Application.Common.Mappings;
-using AutoMapper;
 using Domain.Entities;
 using MediatR;
 using System.Threading;
@@ -10,46 +8,56 @@ namespace Application.V1.Posts.Commands
 {
     public static class CreatePost
     {
-        public record Command : IRequest<Response>
+        public record Command : IRequest<int>
         {
             public string Title { get; init; }
             public string Description { get; init; }
             public string Location { get; init; }
+            public int Year { get; init; }
+            public int Mileage { get; init; }
+            public string Engine { get; init; }
+            public string Drivetrain { get; init; }
+            public string Transmission { get; init; }
+            public string Body { get; init; }
+            public string Equipment { get; init; }
+            public int ModelId { get; init; }
         }
 
-        public class Handler : IRequestHandler<Command, Response>
+        public class Handler : IRequestHandler<Command, int>
         {
             private readonly IApplicationDbContext _context;
-            private readonly IMapper _mapper;
 
-            public Handler(IApplicationDbContext context, IMapper mapper)
+            public Handler(IApplicationDbContext context)
             {
                 _context = context;
-                _mapper = mapper;
             }
 
-            public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<int> Handle(Command request, CancellationToken cancellationToken)
             {
-                //var brand = await _context.Brands.FindAsync(request.BrandId);
+                var model = await _context.Models.FindAsync(request.ModelId);
 
-                //var model = new Model
-                //{
-                //    Name = request.Name,
-                //    Brand = brand
-                //};
+                var post = new Post
+                {
+                    Title = request.Title,
+                    Description = request.Description,
+                    Location = request.Location,
+                    Year = request.Year,
+                    Mileage = request.Mileage,
+                    Engine = request.Engine,
+                    Equipment = request.Equipment,
+                    Model = model,
+                };
 
-                //_context.Models.Add(model);
+                post.SetDrivetrain(request.Drivetrain);
+                post.SetTransmission(request.Transmission);
+                post.SetBodyStyle(request.Body);
 
-                //await _context.SaveChangesAsync(cancellationToken);
+                _context.Posts.Add(post);
 
-                return null;
+                await _context.SaveChangesAsync(cancellationToken);
+
+                return post.Id;
             }
-        }
-
-        public record Response : IMapFrom<Model>
-        {
-            public int Id { get; init; }
-            public string Name { get; init; }
         }
     }
 }
