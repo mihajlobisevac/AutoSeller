@@ -1,6 +1,7 @@
 ﻿using Application.V1.Posts.Commands;
 using Application.V1.Posts.Queries;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace WebAPI.Controllers.V1
@@ -11,6 +12,16 @@ namespace WebAPI.Controllers.V1
         public async Task<IActionResult> Get(int postId)
         {
             var post = await Mediator.Send(new GetPost.Query(postId));
+
+            return post is not null
+                ? Ok(post)
+                : NotFound();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll([FromQuery] GetPosts.Query query)
+        {
+            var post = await Mediator.Send(query);
 
             return post is not null
                 ? Ok(post)
