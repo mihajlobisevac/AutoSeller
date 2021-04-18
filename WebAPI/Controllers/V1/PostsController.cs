@@ -53,7 +53,17 @@ namespace WebAPI.Controllers.V1
             var recalledPost = await Mediator.Send(new ToggleRecallPost.Command(postId));
 
             return recalledPost > 0
-                ? Ok($"Successfully toggled recall for Post with Id: {recalledPost}.")
+                ? Ok($"Successfully toggled recall for Post with Id: {postId}.")
+                : BadRequest();
+        }
+
+        [HttpDelete("{postId}")]
+        public async Task<IActionResult> DeletePost(int postId)
+        {
+            var deletedPost = await Mediator.Send(new DeletePost.Command(postId));
+
+            return deletedPost > 0
+                ? Ok($"Successfully deleted Post with Id: {postId}.")
                 : BadRequest();
         }
     }
