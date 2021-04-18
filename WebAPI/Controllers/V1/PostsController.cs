@@ -36,5 +36,15 @@ namespace WebAPI.Controllers.V1
                 ? Ok($"Post with Id: {createdPost} successfully created.")
                 : BadRequest();
         }
+
+        [HttpPut]
+        public async Task<IActionResult> EditById([FromBody] EditPost.Command post)
+        {
+            var editedPost = await Mediator.Send(post);
+
+            return editedPost is not null
+                ? Ok(editedPost)
+                : BadRequest();
+        }
     }
 }
