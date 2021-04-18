@@ -19,6 +19,7 @@ namespace Domain.Entities
         public BodyStyle Body { get; private set; }
         public string Equipment { get; set; }
         public Model Model { get; set; }
+        public bool IsRecalled { get; set; }
         public ICollection<Image> Images { get; set; }
 
         public void SetDrivetrain(string drivetrain)
