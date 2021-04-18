@@ -1,7 +1,6 @@
 ﻿using Application.V1.Posts.Commands;
 using Application.V1.Posts.Queries;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Threading.Tasks;
 
 namespace WebAPI.Controllers.V1

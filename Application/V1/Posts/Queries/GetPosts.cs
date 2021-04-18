@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Mappings;
+using Application.Common.Models;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Domain.Entities;
@@ -7,7 +8,6 @@ using Domain.Enums;
 using Domain.Extensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,7 +16,7 @@ namespace Application.V1.Posts.Queries
 {
     public static class GetPosts
     {
-        public record Query : IRequest<IEnumerable<Response>>
+        public record Query : IRequest<PaginatedList<Response>>
         {
             public int[] BrandIds { get; init; }
             public int[] ModelIds { get; init; }
@@ -27,9 +27,11 @@ namespace Application.V1.Posts.Queries
             public int? YearUpper { get; init; }
             public int? MileageLower { get; init; }
             public int? MileageUpper { get; init; }
+            public int PageNumber { get; set; } = 1;
+            public int PageSize { get; set; } = 10;
         }
 
-        public class Handler : IRequestHandler<Query, IEnumerable<Response>>
+        public class Handler : IRequestHandler<Query, PaginatedList<Response>>
         {
             private readonly IApplicationDbContext _context;
             private readonly IMapper _mapper;
@@ -40,13 +42,13 @@ namespace Application.V1.Posts.Queries
                 _mapper = mapper;
             }
 
-            public async Task<IEnumerable<Response>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<PaginatedList<Response>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var drivetrains = request.Drivetrains?.ToEnumValueArray<Drivetrain>();
                 var transmissions = request.Transmissions?.ToEnumValueArray<Transmission>();
                 var bodyStyles = request.BodyStyles?.ToEnumValueArray<BodyStyle>();
 
-                return await _context.Posts
+                var posts = await _context.Posts
                     .Include(x => x.Model)
                         .ThenInclude(x => x.Brand)
                     .Where(post => post.IsRecalled == false)
@@ -60,7 +62,9 @@ namespace Application.V1.Posts.Queries
                     .Where(post => transmissions.Any(dt => (int)post.Transmission == dt) || request.Transmissions == null)
                     .Where(post => bodyStyles.Any(dt => (int)post.Body == dt) || request.BodyStyles == null)
                     .ProjectTo<Response>(_mapper.ConfigurationProvider)
-                    .ToListAsync(cancellationToken);
+                    .PaginatedListAsync(request.PageNumber, request.PageSize);
+
+                return posts;
             }
         }
 
