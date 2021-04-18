@@ -10,7 +10,6 @@ namespace Application.Common.Interfaces
         DbSet<Brand> Brands { get; set; }
         DbSet<Model> Models { get; set; }
         DbSet<Post> Posts { get; set; }
-        DbSet<Vehicle> Vehicles { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
