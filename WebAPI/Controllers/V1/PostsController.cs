@@ -17,6 +17,16 @@ namespace WebAPI.Controllers.V1
                 : NotFound();
         }
 
+        [HttpGet("by-brandid/{brandId}")]
+        public async Task<IActionResult> GetByBrandId(int brandId)
+        {
+            var posts = await Mediator.Send(new GetPostsByBrandId.Query(brandId));
+
+            return posts is not null
+                ? Ok(posts)
+                : NotFound();
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreatePost.Command post)
         {

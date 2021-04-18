@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Application.V1.Posts.Queries
 {
-    public static class GetPostsByModelId
+    public static class GetPostsByBrandId
     {
-        public record Query(int ModelId) : IRequest<IEnumerable<Response>>;
+        public record Query(int BrandId) : IRequest<IEnumerable<Response>>;
 
         public class Handler : IRequestHandler<Query, IEnumerable<Response>>
         {
@@ -24,7 +24,7 @@ namespace Application.V1.Posts.Queries
             public async Task<IEnumerable<Response>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var posts = await _context.Posts
-                    .Where(x => x.Model.Id == request.ModelId)
+                    .Where(x => x.Model.Brand.Id == request.BrandId)
                     .Include(x => x.Model)
                     .ThenInclude(x => x.Brand)
                     .OrderByDescending(x => x.Created)
