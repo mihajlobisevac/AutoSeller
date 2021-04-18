@@ -7,6 +7,16 @@ namespace WebAPI.Controllers.V1
 {
     public class PostsController : ApiControllerBase
     {
+        [HttpGet("{postId}")]
+        public async Task<IActionResult> Get(int postId)
+        {
+            var post = await Mediator.Send(new GetPost.Query(postId));
+
+            return post is not null
+                ? Ok(post)
+                : NotFound();
+        }
+
         [HttpGet("by-modelid/{modelId}")]
         public async Task<IActionResult> GetByModelId(int modelId)
         {
