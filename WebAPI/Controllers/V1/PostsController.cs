@@ -46,5 +46,15 @@ namespace WebAPI.Controllers.V1
                 ? Ok(editedPost)
                 : BadRequest();
         }
+
+        [HttpPost("recall/{postId}")]
+        public async Task<IActionResult> ToggleRecall(int postId)
+        {
+            var recalledPost = await Mediator.Send(new ToggleRecallPost.Command(postId));
+
+            return recalledPost > 0
+                ? Ok($"Successfully toggled recall for Post with Id: {recalledPost}.")
+                : BadRequest();
+        }
     }
 }
