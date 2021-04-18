@@ -1,4 +1,8 @@
 ﻿using Application.Common.Interfaces;
+using Application.Common.Mappings;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -15,10 +19,12 @@ namespace Application.V1.Posts.Queries
         public class Handler : IRequestHandler<Query, IEnumerable<Response>>
         {
             private readonly IApplicationDbContext _context;
+            private readonly IMapper _mapper;
 
-            public Handler(IApplicationDbContext context)
+            public Handler(IApplicationDbContext context, IMapper mapper)
             {
                 _context = context;
+                _mapper = mapper;
             }
 
             public async Task<IEnumerable<Response>> Handle(Query request, CancellationToken cancellationToken)
@@ -28,27 +34,27 @@ namespace Application.V1.Posts.Queries
                     .Include(x => x.Model)
                     .ThenInclude(x => x.Brand)
                     .OrderByDescending(x => x.Created)
-                    .Select(x => new Response
-                    {
-                        Id = x.Id,
-                        Title = x.Title,
-                        VehicleYear = x.Year,
-                        VehicleBrand = x.Model.Brand.Name,
-                        VehicleModel = x.Model.Name
-                    })
+                    .ProjectTo<Response>(_mapper.ConfigurationProvider)
                     .ToListAsync(cancellationToken);
 
                 return posts;
             }
         }
 
-        public record Response
+        public record Response : IMapFrom<Post>
         {
             public int Id { get; init; }
             public string Title { get; init; }
             public int VehicleYear { get; init; }
             public string VehicleBrand { get; init; }
             public string VehicleModel { get; init; }
+
+            public void Mapping(Profile profile)
+            {
+                profile.CreateMap<Post, Response>()
+                    .ForMember(dest => dest.VehicleBrand, opt => opt.MapFrom(src => src.Model.Brand.Name))
+                    .ForMember(dest => dest.VehicleModel, opt => opt.MapFrom(src => src.Model.Name));
+            }
         }
     }
 }
