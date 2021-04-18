@@ -7,14 +7,14 @@ namespace Domain.Extensions
     {
         public static T ToEnum<T>(this string enumName) => (T)Enum.Parse(typeof(T), enumName, false);
 
-        public static T[] ToEnumArray<T>(this string[] array)
+        public static int[] ToEnumValueArray<T>(this string[] array)
         {
-            List<T> enumList = new();
+            List<int> enumList = new();
 
-            foreach (var item in array)
+            foreach (string item in array)
             {
-                T enumType = (T)Enum.Parse(typeof(T), item, false);
-                enumList.Add(enumType);
+                int enumValue = (int)Enum.Parse(typeof(T), item, false);
+                enumList.Add(enumValue);
             }
 
             return enumList.ToArray();
