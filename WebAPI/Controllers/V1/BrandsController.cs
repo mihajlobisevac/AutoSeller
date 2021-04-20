@@ -43,9 +43,9 @@ namespace WebAPI.Controllers.V1
         {
             var editedBrand = await Mediator.Send(brand);
 
-            return editedBrand is not null
+            return editedBrand.IsSuccessful
                 ? Ok(editedBrand)
-                : BadRequest();
+                : BadRequest(editedBrand.ErrorMessage);
         }
     }
 }

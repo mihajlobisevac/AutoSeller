@@ -32,9 +32,9 @@ namespace WebAPI.Controllers.V1
         {
             var createdModel = await Mediator.Send(model);
 
-            return createdModel is not null
+            return createdModel.IsSuccessful
                 ? Ok(createdModel)
-                : BadRequest();
+                : BadRequest(createdModel.ErrorMessage);
         }
 
         [HttpPut]

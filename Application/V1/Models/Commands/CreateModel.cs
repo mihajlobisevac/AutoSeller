@@ -30,12 +30,10 @@ namespace Application.V1.Models.Commands
 
             public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
             {
-                var brand = await _context.Brands.FindAsync(request.BrandId);
-
                 var model = new Model
                 {
                     Name = request.Name,
-                    Brand = brand
+                    Brand = await _context.Brands.FindAsync(request.BrandId)
                 };
 
                 _context.Models.Add(model);
