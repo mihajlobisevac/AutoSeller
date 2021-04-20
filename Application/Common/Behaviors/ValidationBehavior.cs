@@ -26,9 +26,11 @@ namespace Application.Common.Behaviors
 
             if (result.IsSuccessful == false)
             {
-                //potential log: result.Error
-                string error = $"One or more validations failed";
-                return new TResponse { IsSuccessful = false, ErrorMessage = error };
+                return new TResponse 
+                { 
+                    IsSuccessful = false, 
+                    ErrorMessage = $"Validation error: {result.Error}" 
+                };
             }
 
             return await next();
