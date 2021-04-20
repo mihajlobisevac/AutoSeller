@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Application.Common.Models;
 using Domain.Entities;
 using MediatR;
 using System.Threading;
@@ -8,7 +9,7 @@ namespace Application.V1.Posts.Commands
 {
     public static class CreatePost
     {
-        public record Command : IRequest<int>
+        public record Command : IRequest<Response>
         {
             public string Title { get; init; }
             public string Description { get; init; }
@@ -23,7 +24,7 @@ namespace Application.V1.Posts.Commands
             public int ModelId { get; init; }
         }
 
-        public class Handler : IRequestHandler<Command, int>
+        public class Handler : IRequestHandler<Command, Response>
         {
             private readonly IApplicationDbContext _context;
 
@@ -32,7 +33,7 @@ namespace Application.V1.Posts.Commands
                 _context = context;
             }
 
-            public async Task<int> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
             {
                 var model = await _context.Models.FindAsync(request.ModelId);
 
@@ -56,8 +57,10 @@ namespace Application.V1.Posts.Commands
 
                 await _context.SaveChangesAsync(cancellationToken);
 
-                return post.Id;
+                return new Response(post.Id);
             }
         }
+
+        public record Response(int Id) : CQRSResponse;
     }
 }

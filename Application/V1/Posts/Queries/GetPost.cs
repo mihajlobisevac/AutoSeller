@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Mappings;
+using Application.Common.Models;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
@@ -37,7 +38,7 @@ namespace Application.V1.Posts.Queries
             }
         }
 
-        public record Response : IMapFrom<Post>
+        public record Response : CQRSResponse, IMapFrom<Post>
         {
             public int Id { get; init; }
             public string Title { get; init; }

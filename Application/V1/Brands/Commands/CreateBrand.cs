@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Mappings;
+using Application.Common.Models;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
@@ -43,7 +44,7 @@ namespace Application.V1.Brands.Commands
             }
         }
 
-        public record Response : IMapFrom<Brand>
+        public record Response : CQRSResponse, IMapFrom<Brand>
         {
             public int Id { get; init; }
             public string Name { get; init; }

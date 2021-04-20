@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Application.Common.Models;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,9 +8,9 @@ namespace Application.V1.Posts.Commands
 {
     public static class ToggleRecallPost
     {
-        public record Command(int PostId) : IRequest<int>;
+        public record Command(int PostId) : IRequest<Response>;
 
-        public class Handler : IRequestHandler<Command, int>
+        public class Handler : IRequestHandler<Command, Response>
         {
             private readonly IApplicationDbContext _context;
 
@@ -18,14 +19,18 @@ namespace Application.V1.Posts.Commands
                 _context = context;
             }
 
-            public async Task<int> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
             {
                 var post = await _context.Posts.FindAsync(request.PostId);
 
                 post.IsRecalled = !post.IsRecalled;
 
-                return await _context.SaveChangesAsync(cancellationToken);
+                var result = await _context.SaveChangesAsync(cancellationToken);
+
+                return new Response(result);
             }
         }
+
+        public record Response(int Id) : CQRSResponse;
     }
 }
