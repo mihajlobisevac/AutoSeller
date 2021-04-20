@@ -32,7 +32,7 @@ namespace WebAPI.Controllers.V1
         {
             var createdPost = await Mediator.Send(post);
 
-            return createdPost > 0
+            return createdPost.Id > 0
                 ? Ok($"Post with Id: {createdPost} successfully created.")
                 : BadRequest();
         }
@@ -52,7 +52,7 @@ namespace WebAPI.Controllers.V1
         {
             var recalledPost = await Mediator.Send(new ToggleRecallPost.Command(postId));
 
-            return recalledPost > 0
+            return recalledPost.Id > 0
                 ? Ok($"Successfully toggled recall for Post with Id: {postId}.")
                 : BadRequest();
         }
@@ -62,7 +62,7 @@ namespace WebAPI.Controllers.V1
         {
             var deletedPost = await Mediator.Send(new DeletePost.Command(postId));
 
-            return deletedPost > 0
+            return deletedPost.Id > 0
                 ? Ok($"Successfully deleted Post with Id: {postId}.")
                 : BadRequest();
         }

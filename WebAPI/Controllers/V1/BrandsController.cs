@@ -33,9 +33,9 @@ namespace WebAPI.Controllers.V1
         {
             var createdBrand = await Mediator.Send(brand);
 
-            return createdBrand is not null
+            return createdBrand.IsSuccessful
                 ? Ok(createdBrand)
-                : BadRequest();
+                : BadRequest(createdBrand.ErrorMessage);
         }
 
         [HttpPut]
