@@ -2,7 +2,7 @@
 {
     public record CQRSResponse
     {
-        public bool IsSuccessful { get; init; } = true;
+        public bool IsSuccessful { get; set; } = true;
         public string ErrorMessage { get; init; }
     }
 }
