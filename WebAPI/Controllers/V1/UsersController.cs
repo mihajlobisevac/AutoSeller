@@ -13,7 +13,7 @@ namespace WebAPI.Controllers.V1
 
             return result.IsSuccessful
                 ? Ok(result)
-                : BadRequest(result);
+                : BadRequest(result.ErrorMessage);
         }
     }
 }
