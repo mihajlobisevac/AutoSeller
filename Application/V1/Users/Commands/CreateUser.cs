@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Application.Common.Models;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,45 +26,33 @@ namespace Application.V1.Users.Commands
 
             public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
             {
-                var emailAvailable = await _identityService.EmailAvailableAsync(request.Email);
-
-                if (emailAvailable == false)
-                {
-                    return Response.Fail("Email not available.");
-                }
-
                 var result = await _identityService.CreateUserAsync(
                     request.Username,
                     request.Email,
                     request.Password);
 
-                if (result.IsSuccessful)
-                {
-                    return Response.Success($"Your account has been successfully created, {request.Username}.");
-                }
+                if (result.IsSuccessful) return new Response(request.Username, request.Email);
 
-                return Response.Fail("Unable to create account.");
+                return new Response("Unable to register");
             }
         }
 
-        public record Response
+        public record Response : CQRSResponse 
         {
-            public string Description { get; private set; }
-            public bool IsSuccessful { get; private set; }
+            public string Username { get; init; }
+            public string Email { get; init; }
 
-            public static Response Success(string description)
-                => new()
-                {
-                    Description = description,
-                    IsSuccessful = true
-                };
+            public Response(string error)
+            {
+                IsSuccessful = false;
+                ErrorMessage = error;
+            }
 
-            public static Response Fail(string description)
-                => new()
-                {
-                    Description = description,
-                    IsSuccessful = false
-                };
+            public Response(string username, string email)
+            {
+                Username = username;
+                Email = email;
+            }
         }
     }
 }

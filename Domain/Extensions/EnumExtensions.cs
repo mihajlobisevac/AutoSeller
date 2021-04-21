@@ -7,7 +7,7 @@ namespace Domain.Extensions
     {
         public static T ToEnum<T>(this string enumName) => (T)Enum.Parse(typeof(T), enumName, false);
 
-        public static int[] ToEnumValueArray<T>(this string[] array)
+        public static int[] ToEnumValueArray<T>(this List<string> array)
         {
             List<int> enumList = new();
 

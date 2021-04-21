@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Mappings;
+using Application.Common.Models;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
@@ -30,8 +31,7 @@ namespace Application.V1.Brands.Commands
 
             public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
             {
-                var brand = await _context.Brands
-                    .FindAsync(request.Id);
+                var brand = await _context.Brands.FindAsync(request.Id);
 
                 brand.Name = request.Name;
                 brand.Country = request.Country;
@@ -42,7 +42,7 @@ namespace Application.V1.Brands.Commands
             }
         }
 
-        public record Response : IMapFrom<Brand>
+        public record Response : CQRSResponse, IMapFrom<Brand>
         {
             public int Id { get; init; }
             public string Name { get; init; }
