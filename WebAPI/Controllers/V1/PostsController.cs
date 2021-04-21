@@ -52,9 +52,9 @@ namespace WebAPI.Controllers.V1
         {
             var recalledPost = await Mediator.Send(new ToggleRecallPost.Command(postId));
 
-            return recalledPost.Id > 0
+            return recalledPost.IsSuccessful
                 ? Ok($"Successfully toggled recall for Post with Id: {postId}.")
-                : BadRequest();
+                : BadRequest(recalledPost.ErrorMessage);
         }
 
         [HttpDelete("{postId}")]

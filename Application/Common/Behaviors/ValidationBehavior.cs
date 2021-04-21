@@ -28,8 +28,8 @@ namespace Application.Common.Behaviors
             {
                 return new TResponse 
                 { 
-                    IsSuccessful = false, 
-                    ErrorMessage = $"Validation error: {result.Error}" 
+                    IsSuccessful = false,
+                    ErrorMessage = $"Error: {result.Error}" 
                 };
             }
 
