@@ -62,9 +62,9 @@ namespace WebAPI.Controllers.V1
         {
             var deletedPost = await Mediator.Send(new DeletePost.Command(postId));
 
-            return deletedPost.Id > 0
+            return deletedPost.IsSuccessful
                 ? Ok($"Successfully deleted Post with Id: {postId}.")
-                : BadRequest();
+                : BadRequest(deletedPost.ErrorMessage);
         }
     }
 }
