@@ -1,8 +1,9 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Validation;
+using Application.V1.Posts.Commands;
 using System.Threading.Tasks;
 
-namespace Application.V1.Posts.Commands
+namespace Application.V1.Posts.Validators
 {
     public class DeletePostValidator : IValidationHandler<DeletePost.Command>
     {

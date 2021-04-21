@@ -1,20 +1,21 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Validation;
+using Application.V1.Brands.Commands;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
-namespace Application.V1.Brands.Commands
+namespace Application.V1.Brands.Validators
 {
-    public class EditBrandValidator : IValidationHandler<EditBrand.Command>
+    public class CreateBrandValidator : IValidationHandler<CreateBrand.Command>
     {
         private readonly IApplicationDbContext _context;
 
-        public EditBrandValidator(IApplicationDbContext context)
+        public CreateBrandValidator(IApplicationDbContext context)
         {
             _context = context;
         }
 
-        public async Task<ValidationResult> Validate(EditBrand.Command request)
+        public async Task<ValidationResult> Validate(CreateBrand.Command request)
         {
             var brand = await _context.Brands.FirstOrDefaultAsync(x => x.Name == request.Name);
 

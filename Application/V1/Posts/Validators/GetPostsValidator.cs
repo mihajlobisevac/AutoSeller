@@ -1,10 +1,11 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Validation;
+using Application.V1.Posts.Queries;
 using Domain.Enums;
 using System;
 using System.Threading.Tasks;
 
-namespace Application.V1.Posts.Queries
+namespace Application.V1.Posts.Validators
 {
     public class GetPostsValidator : IValidationHandler<GetPosts.Query>
     {

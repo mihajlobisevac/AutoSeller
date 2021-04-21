@@ -1,8 +1,9 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Validation;
+using Application.V1.Models.Commands;
 using System.Threading.Tasks;
 
-namespace Application.V1.Models.Commands
+namespace Application.V1.Models.Validators
 {
     public class CreateModelValidator : IValidationHandler<CreateModel.Command>
     {
