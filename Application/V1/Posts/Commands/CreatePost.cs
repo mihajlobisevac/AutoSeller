@@ -57,10 +57,13 @@ namespace Application.V1.Posts.Commands
 
                 await _context.SaveChangesAsync(cancellationToken);
 
-                return new Response(post.Id);
+                return new Response { Id = post.Id };
             }
         }
 
-        public record Response(int Id) : CQRSResponse;
+        public record Response : CQRSResponse
+        {
+            public int Id { get; init; }
+        }
     }
 }

@@ -32,9 +32,9 @@ namespace WebAPI.Controllers.V1
         {
             var createdPost = await Mediator.Send(post);
 
-            return createdPost.Id > 0
-                ? Ok($"Post with Id: {createdPost} successfully created.")
-                : BadRequest();
+            return createdPost.IsSuccessful
+                ? Ok($"Post with Id: {createdPost.Id} successfully created.")
+                : BadRequest(createdPost.ErrorMessage);
         }
 
         [HttpPut]

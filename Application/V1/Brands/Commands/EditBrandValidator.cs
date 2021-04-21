@@ -18,7 +18,7 @@ namespace Application.V1.Brands.Commands
         {
             var brand = await _context.Brands.FirstOrDefaultAsync(x => x.Name == request.Name);
 
-            if (brand is not null) return ValidationResult.Fail("Name already in use.");
+            if (brand is not null) return ValidationResult.Fail("Name already in use");
 
             return ValidationResult.Success;
         }

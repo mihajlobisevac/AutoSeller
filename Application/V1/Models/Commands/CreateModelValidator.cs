@@ -17,7 +17,7 @@ namespace Application.V1.Models.Commands
         {
             var brand = await _context.Brands.FindAsync(request.BrandId);
 
-            if (brand is null) return ValidationResult.Fail("Brand doesn't exist.");
+            if (brand is null) return ValidationResult.Fail("Brand doesn't exist");
 
             return ValidationResult.Success;
         }
