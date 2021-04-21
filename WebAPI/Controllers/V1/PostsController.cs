@@ -42,9 +42,9 @@ namespace WebAPI.Controllers.V1
         {
             var editedPost = await Mediator.Send(post);
 
-            return editedPost is not null
+            return editedPost.IsSuccessful
                 ? Ok(editedPost)
-                : BadRequest();
+                : BadRequest(editedPost.ErrorMessage);
         }
 
         [HttpPost("recall/{postId}")]

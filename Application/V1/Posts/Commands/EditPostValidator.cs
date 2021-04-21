@@ -6,19 +6,25 @@ using System.Threading.Tasks;
 
 namespace Application.V1.Posts.Commands
 {
-    public class CreatePostValidator : IValidationHandler<CreatePost.Command>
+    public class EditPostValidator : IValidationHandler<EditPost.Command>
     {
         private readonly IApplicationDbContext _context;
         private readonly IDateTime _date;
 
-        public CreatePostValidator(IApplicationDbContext context, IDateTime date)
+        public EditPostValidator(IApplicationDbContext context, IDateTime date)
         {
             _context = context;
             _date = date;
         }
 
-        public async Task<ValidationResult> Validate(CreatePost.Command request)
+        public async Task<ValidationResult> Validate(EditPost.Command request)
         {
+            var post = await _context.Posts.FindAsync(request.Id);
+            if (post is null)
+            {
+                return ValidationResult.Fail($"Post does not exist");
+            }
+
             var model = await _context.Models.FindAsync(request.ModelId);
             if (model is null)
             {
