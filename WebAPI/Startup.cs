@@ -1,5 +1,6 @@
 using Application;
 using Application.Common.Interfaces;
+using FluentValidation.AspNetCore;
 using Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,7 +31,13 @@ namespace WebAPI
 
             services.AddHttpContextAccessor();
 
-            services.AddControllers();
+            services.AddControllers()
+                .AddFluentValidation(fv => 
+                {
+                    fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
+                    fv.RegisterValidatorsFromAssemblyContaining<Startup>();
+                });
+
             services.AddRouting(options => options.LowercaseUrls = true);
             services.AddApiVersioning();
 
