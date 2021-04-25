@@ -9,7 +9,7 @@ namespace WebAPI.Models.V1.Brands.Validators
         {
             RuleFor(x => x.Name)
                 .NotEmpty()
-                .WithMessage("Brand name can't be empty.");
+                .WithMessage("Brand name can't be empty");
         }
     }
 }
