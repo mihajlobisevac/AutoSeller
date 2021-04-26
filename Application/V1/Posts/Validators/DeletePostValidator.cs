@@ -19,7 +19,7 @@ namespace Application.V1.Posts.Validators
             var post = await _context.Posts.FindAsync(request.PostId);
             if (post is null)
             {
-                return ValidationResult.Fail($"Post does not exist");
+                return ValidationResult.Fail("Post does not exist");
             }
 
             return ValidationResult.Success;

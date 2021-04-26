@@ -14,19 +14,19 @@ namespace Application.V1.Posts.Validators
             foreach (var drivetrain in request.Drivetrains)
             {
                 if (!Enum.IsDefined(typeof(Drivetrain), drivetrain)) 
-                    return ValidationResult.Fail($"One or more invalid drivetrains");
+                    return ValidationResult.Fail("One or more invalid drivetrains");
             }
 
             foreach (var transmission in request.Transmissions)
             {
                 if (!Enum.IsDefined(typeof(Transmission), transmission)) 
-                    return ValidationResult.Fail($"One or more invalid transmissions");
+                    return ValidationResult.Fail("One or more invalid transmissions");
             }
 
             foreach (var bodystyle in request.BodyStyles)
             {
                 if (!Enum.IsDefined(typeof(BodyStyle), bodystyle)) 
-                    return ValidationResult.Fail($"One or more invalid body styles");
+                    return ValidationResult.Fail("One or more invalid body styles");
             }
 
             return ValidationResult.Success;
