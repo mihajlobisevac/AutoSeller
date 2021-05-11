@@ -8,5 +8,7 @@ namespace Application.Common.Interfaces
         Task<Result> CreateUserAsync(string username, string email, string password);
         Task<bool> EmailAvailableAsync(string email);
         Task<bool> CheckCredentialsAsync(string email, string password);
+        Task<CQRSResponse> CreateRoleAsync(string roleName);
+        Task<CQRSResponse> AddUserToRoleAsync(string email, string roleName);
     }
 }
