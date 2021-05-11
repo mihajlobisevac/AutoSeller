@@ -14,6 +14,12 @@ namespace Infrastructure.Identity
             _userManager = userManager;
         }
 
+        public async Task<bool> CheckCredentialsAsync(string email, string password)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            return await _userManager.CheckPasswordAsync(user, password);
+        }
+
         public async Task<Result> CreateUserAsync(string username, string email, string password)
         {
             var user = new ApplicationUser
