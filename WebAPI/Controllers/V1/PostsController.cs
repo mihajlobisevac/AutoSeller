@@ -1,15 +1,12 @@
 ﻿using Application.V1.Posts.Commands;
 using Application.V1.Posts.Queries;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace WebAPI.Controllers.V1
 {
-    [Authorize]
     public class PostsController : ApiControllerBase
     {
-        [AllowAnonymous]
         [HttpGet("{postId}")]
         public async Task<IActionResult> Get(int postId)
         {
@@ -20,7 +17,6 @@ namespace WebAPI.Controllers.V1
                 : NotFound();
         }
 
-        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] GetPosts.Query query)
         {

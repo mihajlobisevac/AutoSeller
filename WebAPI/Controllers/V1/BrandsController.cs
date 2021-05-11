@@ -1,16 +1,13 @@
 ﻿using Application.V1.Brands.Commands;
 using Application.V1.Brands.Queries;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace WebAPI.Controllers.V1
 {
-    [Authorize(Policy = "Admin")]
     public class BrandsController : ApiControllerBase
     {
-        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -21,7 +18,6 @@ namespace WebAPI.Controllers.V1
                 : NotFound();
         }
 
-        [AllowAnonymous]
         [HttpGet("by-name/{brandName}")]
         public async Task<IActionResult> GetByName(string brandName)
         {
