@@ -11,11 +11,13 @@ namespace Application.V1.Posts.Validators
     {
         private readonly IApplicationDbContext _context;
         private readonly IDateTime _date;
+        private readonly ICurrentUserService _currentUser;
 
-        public EditPostValidator(IApplicationDbContext context, IDateTime date)
+        public EditPostValidator(IApplicationDbContext context, IDateTime date, ICurrentUserService currentUser)
         {
             _context = context;
             _date = date;
+            _currentUser = currentUser;
         }
 
         public async Task<ValidationResult> Validate(EditPost.Command request)
@@ -24,6 +26,11 @@ namespace Application.V1.Posts.Validators
             if (post is null)
             {
                 return ValidationResult.Fail("Post does not exist");
+            }
+
+            if (post.CreatedBy != _currentUser.UserId && _currentUser.IsAdmin == false)
+            {
+                return ValidationResult.Fail("Unauthorized to edit this post");
             }
 
             var model = await _context.Models.FindAsync(request.ModelId);
