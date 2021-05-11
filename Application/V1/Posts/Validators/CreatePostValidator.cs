@@ -11,15 +11,22 @@ namespace Application.V1.Posts.Validators
     {
         private readonly IApplicationDbContext _context;
         private readonly IDateTime _date;
+        private readonly ICurrentUserService _currentUser;
 
-        public CreatePostValidator(IApplicationDbContext context, IDateTime date)
+        public CreatePostValidator(IApplicationDbContext context, IDateTime date, ICurrentUserService currentUser)
         {
             _context = context;
             _date = date;
+            _currentUser = currentUser;
         }
 
         public async Task<ValidationResult> Validate(CreatePost.Command request)
         {
+            if (string.IsNullOrEmpty(_currentUser.UserId))
+            {
+                return ValidationResult.Fail("Unable to create post");
+            }
+
             var model = await _context.Models.FindAsync(request.ModelId);
             if (model is null)
             {
