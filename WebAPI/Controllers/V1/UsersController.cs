@@ -1,4 +1,5 @@
 ﻿using Application.V1.Users.Commands;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -6,6 +7,7 @@ namespace WebAPI.Controllers.V1
 {
     public class UsersController : ApiControllerBase
     {
+        [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] CreateUser.Command user)
         {
@@ -14,6 +16,29 @@ namespace WebAPI.Controllers.V1
             return result.IsSuccessful
                 ? Ok(result)
                 : BadRequest(result.ErrorMessage);
+        }
+
+        [AllowAnonymous]
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginUser.Command user)
+        {
+            var result = await Mediator.Send(user);
+
+            return result.IsSuccessful
+                ? Ok(result)
+                : BadRequest(result.ErrorMessage);
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("refreshtoken")]
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshUserToken.Command tokenRequest)
+        {
+            var result = await Mediator.Send(tokenRequest);
+
+            return result.IsSuccessful
+                ? Ok(result)
+                : Unauthorized(result);
         }
     }
 }

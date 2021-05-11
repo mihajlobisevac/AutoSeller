@@ -2,6 +2,7 @@
 using Domain.Common;
 using Domain.Entities;
 using IdentityServer4.EntityFramework.Options;
+using Infrastructure.Auth;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +33,7 @@ namespace Infrastructure.Persistence
         public DbSet<Image> Images { get; set; }
         public DbSet<Model> Models { get; set; }
         public DbSet<Post> Posts { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
