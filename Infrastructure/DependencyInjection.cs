@@ -52,7 +52,10 @@ namespace Infrastructure
                     jwtOptions.TokenValidationParameters = tokenParams;
                 });
 
-            services.AddAuthorization();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
+            });
 
             services.AddDefaultIdentity<ApplicationUser>()
                 .AddRoles<IdentityRole>()

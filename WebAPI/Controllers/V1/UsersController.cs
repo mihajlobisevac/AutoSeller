@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace WebAPI.Controllers.V1
 {
+    [Authorize(Policy = "Admin")]
     public class UsersController : ApiControllerBase
     {
         [AllowAnonymous]
