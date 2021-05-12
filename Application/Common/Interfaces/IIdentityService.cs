@@ -5,7 +5,7 @@ namespace Application.Common.Interfaces
 {
     public interface IIdentityService
     {
-        Task<Result> CreateUserAsync(string username, string email, string password);
+        Task<CQRSResponse> CreateUserAsync(string username, string email, string password);
         Task<bool> EmailAvailableAsync(string email);
         Task<bool> CheckCredentialsAsync(string email, string password);
         Task<CQRSResponse> CreateRoleAsync(string roleName);
