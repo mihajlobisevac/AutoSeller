@@ -14,6 +14,6 @@ namespace WebAPI.Services
         }
 
         public string UserId => _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
-        public bool IsAdmin => _httpContextAccessor.HttpContext.User.IsInRole("Admin");
+        public bool IsAdmin => (bool)_httpContextAccessor.HttpContext?.User?.IsInRole("Admin");
     }
 }
