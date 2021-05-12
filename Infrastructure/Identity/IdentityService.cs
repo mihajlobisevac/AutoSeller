@@ -1,7 +1,7 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Models;
 using Microsoft.AspNetCore.Identity;
-using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Identity
@@ -19,19 +19,23 @@ namespace Infrastructure.Identity
 
         public async Task<CQRSResponse> AddUserToRoleAsync(string email, string roleName)
         {
+            List<string> errors = new();
+
             var roleExists = await _roleManager.RoleExistsAsync(roleName);
-            if (roleExists == false) return new CQRSResponse($"Role with name '{roleName}' not found");
+            if (roleExists == false) errors.Add($"Role with name '{roleName}' not found");
 
             var user = await _userManager.FindByEmailAsync(email);
-            if (user is null) return new CQRSResponse($"User with email '{email}' not found");
+            if (user is null) errors.Add($"User with email '{email}' not found");
 
             var isInRole = await _userManager.IsInRoleAsync(user, roleName);
-            if (isInRole == true) return new CQRSResponse($"User '{email}' is already assigned to role '{roleName}'");
+            if (isInRole == true) errors.Add($"User '{email}' is already assigned to role '{roleName}'");
 
             var roleResult = await _userManager.AddToRoleAsync(user, roleName);
             if (roleResult.Succeeded) return new CQRSResponse();
 
-            return new CQRSResponse($"Unable to assign role '{roleName}' to user '{email}'");
+            errors.Add($"Unable to assign role '{roleName}' to user '{email}'");
+
+            return CQRSResponse.Fail(errors.ToArray());
         }
 
         public async Task<bool> CheckCredentialsAsync(string email, string password)
@@ -45,26 +49,15 @@ namespace Infrastructure.Identity
             var role = new IdentityRole(roleName);
             var result = await _roleManager.CreateAsync(role);
 
-            if (result.Succeeded == false)
-            {
-                var error = result.Errors.Select(x => x.Description).FirstOrDefault();
-                return new CQRSResponse(error);
-            }
-
-            return IdentityRoleResponse.Success(role);
+            return result.ToCQRSResponse(role);
         }
 
-        public async Task<Result> CreateUserAsync(string username, string email, string password)
+        public async Task<CQRSResponse> CreateUserAsync(string username, string email, string password)
         {
-            var user = new ApplicationUser
-            {
-                UserName = username,
-                Email = email,
-            };
-
+            var user = new ApplicationUser(email, username);
             var result = await _userManager.CreateAsync(user, password);
 
-            return result.ToApplicationResult();
+            return result.ToCQRSResponse(user);
         }
 
         public async Task<bool> EmailAvailableAsync(string email)

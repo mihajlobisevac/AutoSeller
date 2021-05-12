@@ -39,7 +39,7 @@ namespace WebAPI.Controllers.V1
 
             return createdBrand.IsSuccessful
                 ? Ok(createdBrand)
-                : BadRequest(createdBrand.ErrorMessage);
+                : BadRequest(createdBrand.Errors);
         }
 
         [HttpPut]
@@ -49,7 +49,7 @@ namespace WebAPI.Controllers.V1
 
             return editedBrand.IsSuccessful
                 ? Ok(editedBrand)
-                : BadRequest(editedBrand.ErrorMessage);
+                : BadRequest(editedBrand.Errors);
         }
     }
 }

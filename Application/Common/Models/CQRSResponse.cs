@@ -3,16 +3,20 @@
     public record CQRSResponse
     {
         public bool IsSuccessful { get; set; } = true;
-        public string ErrorMessage { get; init; }
+        public string[] Errors { get; init; }
 
-        public CQRSResponse(string error)
-        {
-            IsSuccessful = false;
-            ErrorMessage = error;
-        }
+        public static CQRSResponse Fail(string[] errors)
+            => new()
+            {
+                IsSuccessful = false,
+                Errors = errors
+            };
 
-        public CQRSResponse()
-        {
-        }
+        public static CQRSResponse Fail(string error)
+            => new()
+            {
+                IsSuccessful = false,
+                Errors = new string[] { error }
+            };
     }
 }
