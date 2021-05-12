@@ -38,7 +38,7 @@ namespace WebAPI.Controllers.V1
 
             return createdPost.IsSuccessful
                 ? Ok($"Post with Id: {createdPost.Id} successfully created.")
-                : BadRequest(createdPost.ErrorMessage);
+                : BadRequest(createdPost.Errors);
         }
 
         [HttpPut]
@@ -48,7 +48,7 @@ namespace WebAPI.Controllers.V1
 
             return editedPost.IsSuccessful
                 ? Ok(editedPost)
-                : BadRequest(editedPost.ErrorMessage);
+                : BadRequest(editedPost.Errors);
         }
 
         [HttpPost("recall/{postId}")]
@@ -58,7 +58,7 @@ namespace WebAPI.Controllers.V1
 
             return recalledPost.IsSuccessful
                 ? Ok($"Successfully toggled recall for Post with Id: {postId}.")
-                : BadRequest(recalledPost.ErrorMessage);
+                : BadRequest(recalledPost.Errors);
         }
 
         [HttpDelete("{postId}")]
@@ -68,7 +68,7 @@ namespace WebAPI.Controllers.V1
 
             return deletedPost.IsSuccessful
                 ? Ok($"Successfully deleted Post with Id: {postId}.")
-                : BadRequest(deletedPost.ErrorMessage);
+                : BadRequest(deletedPost.Errors);
         }
     }
 }

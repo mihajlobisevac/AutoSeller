@@ -16,7 +16,7 @@ namespace WebAPI.Controllers.V1
 
             return result.IsSuccessful
                 ? Ok(result)
-                : BadRequest(result.ErrorMessage);
+                : BadRequest(result.Errors);
         }
 
         [AllowAnonymous]
@@ -27,7 +27,7 @@ namespace WebAPI.Controllers.V1
 
             return result.IsSuccessful
                 ? Ok(result)
-                : BadRequest(result.ErrorMessage);
+                : BadRequest(result.Errors);
         }
 
         [AllowAnonymous]

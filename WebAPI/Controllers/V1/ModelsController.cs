@@ -38,7 +38,7 @@ namespace WebAPI.Controllers.V1
 
             return createdModel.IsSuccessful
                 ? Ok(createdModel)
-                : BadRequest(createdModel.ErrorMessage);
+                : BadRequest(createdModel.Errors);
         }
 
         [HttpPut]
