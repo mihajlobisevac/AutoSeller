@@ -25,7 +25,7 @@ namespace Application.V1.Users.Commands
                     request.JwtToken,
                     request.RefreshToken);
 
-                if (result is null) return new CQRSResponse("Failed validating tokens");
+                if (result is null) return CQRSResponse.Fail("Failed validating tokens");
 
                 return result;
             }

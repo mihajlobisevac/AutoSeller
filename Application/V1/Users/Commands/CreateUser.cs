@@ -8,14 +8,9 @@ namespace Application.V1.Users.Commands
 {
     public static class CreateUser
     {
-        public record Command : IRequest<Response>
-        {
-            public string Username { get; init; }
-            public string Email { get; init; }
-            public string Password { get; init; }
-        }
+        public record Command(string Username, string Email, string Password) : IRequest<CQRSResponse>;
 
-        public class Handler : IRequestHandler<Command, Response>
+        public class Handler : IRequestHandler<Command, CQRSResponse>
         {
             private readonly IIdentityService _identityService;
 
@@ -24,34 +19,14 @@ namespace Application.V1.Users.Commands
                 _identityService = identityService;
             }
 
-            public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<CQRSResponse> Handle(Command request, CancellationToken cancellationToken)
             {
-                var result = await _identityService.CreateUserAsync(
+                var userCreatedResult = await _identityService.CreateUserAsync(
                     request.Username,
                     request.Email,
                     request.Password);
 
-                if (result.IsSuccessful) return new Response(request.Username, request.Email);
-
-                return new Response("Unable to register");
-            }
-        }
-
-        public record Response : CQRSResponse 
-        {
-            public string Username { get; init; }
-            public string Email { get; init; }
-
-            public Response(string error)
-            {
-                IsSuccessful = false;
-                ErrorMessage = error;
-            }
-
-            public Response(string username, string email)
-            {
-                Username = username;
-                Email = email;
+                return userCreatedResult;
             }
         }
     }
