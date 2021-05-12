@@ -66,7 +66,7 @@ namespace Infrastructure.Auth
             var jwtTokenClaimsPrincipal = jwtToken.GetClaimsPrincipal(_tokenParams);
 
             if (jwtTokenClaimsPrincipal is null) 
-                return new CQRSResponse("Invalid token");
+                return CQRSResponse.Fail("Invalid token");
 
             // Validation 2: validate expiry date
             var utcExpiryDate = long.Parse(
@@ -76,29 +76,29 @@ namespace Infrastructure.Auth
             var expiryDate = GeneralExtensions.UnixTimestampToDateTime(utcExpiryDate);
 
             if (expiryDate > DateTime.UtcNow) 
-                return new CQRSResponse("Token has not expired yet");
+                return CQRSResponse.Fail("Token has not expired yet");
 
             // Validation 3: validate existence of the refresh token
             var storedToken = await _context.RefreshTokens
                 .FirstOrDefaultAsync(x => x.Value == refreshToken);
 
             if (storedToken is null) 
-                return new CQRSResponse("Refresh token does not exist");
+                return CQRSResponse.Fail("Refresh token does not exist");
 
             // Validation 4: validate if used
             if (storedToken.IsUsed) 
-                return new CQRSResponse("Refresh token has been used");
+                return CQRSResponse.Fail("Refresh token has been used");
 
             // Validation 5: validate if revoked
             if (storedToken.IsRevoked) 
-                return new CQRSResponse("Refresh token has been revoked");
+                return CQRSResponse.Fail("Refresh token has been revoked");
 
             // Validation 6: validate the id
             var jti = jwtTokenClaimsPrincipal.Claims
                 .FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Jti).Value;
 
             if (storedToken.JwtId != jti) 
-                return new CQRSResponse("Tokens do not match");
+                return CQRSResponse.Fail("Tokens do not match");
 
             // Update Used Refresh Token
             storedToken.IsUsed = true;
