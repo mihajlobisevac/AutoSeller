@@ -38,12 +38,18 @@ namespace Application.V1.Brands.Queries
             }
         }
 
-        public record Response : CQRSResponse, IMapFrom<Brand>
+        public record Response : IMapFrom<Brand>
         {
             public int Id { get; init; }
             public string Name { get; init; }
             public string Country { get; init; }
-            public ICollection<Model> Models { get; init; }
+            public ICollection<ModelDto> Models { get; init; }
+        }
+
+        public record ModelDto : IMapFrom<Model>
+        {
+            public int Id { get; init; }
+            public string Name { get; init; }
         }
     }
 }

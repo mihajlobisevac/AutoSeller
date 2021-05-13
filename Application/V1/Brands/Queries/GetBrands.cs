@@ -29,15 +29,13 @@ namespace Application.V1.Brands.Queries
 
             public async Task<IEnumerable<Response>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var brands = await _context.Brands
+                return await _context.Brands
                     .ProjectTo<Response>(_mapper.ConfigurationProvider)
                     .ToListAsync(cancellationToken);
-
-                return brands;
             }
         }
 
-        public record Response : CQRSResponse, IMapFrom<Brand>
+        public record Response : IMapFrom<Brand>
         {
             public int Id { get; init; }
             public string Name { get; init; }
