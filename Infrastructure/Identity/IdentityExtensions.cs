@@ -9,24 +9,22 @@ namespace Infrastructure.Identity
     {
         public static CQRSResponse ToCQRSResponse(this IdentityResult identityResult, IdentityRole role)
         {
-            if (identityResult.Succeeded == false)
-            {
-                var errors = identityResult.Errors.Select(x => x.Description).ToArray();
-                return CQRSResponse.Fail(errors);
-            }
-
-            return IdentityRoleResponse.Success(role);
+            return identityResult.Succeeded == false
+                ? identityResult.Failed()
+                : IdentityRoleResponse.Success(role);
         }
 
         public static CQRSResponse ToCQRSResponse(this IdentityResult identityResult, ApplicationUser user)
         {
-            if (identityResult.Succeeded == false)
-            {
-                var errors = identityResult.Errors.Select(x => x.Description).ToArray();
-                return CQRSResponse.Fail(errors);
-            }
+            return identityResult.Succeeded == false
+                ? identityResult.Failed()
+                : IdentityUserResponse.Success(user);
+        }
 
-            return IdentityUserResponse.Success(user);
+        private static CQRSResponse Failed(this IdentityResult identityResult)
+        {
+            var errors = identityResult.Errors.Select(x => x.Description).ToArray();
+            return CQRSResponse.Fail(errors);
         }
     }
 }
