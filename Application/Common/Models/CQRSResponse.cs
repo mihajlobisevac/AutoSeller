@@ -5,6 +5,12 @@
         public bool IsSuccessful { get; set; } = true;
         public string[] Errors { get; init; }
 
+        protected CQRSResponse()
+        {
+        }
+
+        public static CQRSResponse Success => new();
+
         public static CQRSResponse Fail(string[] errors)
             => new()
             {

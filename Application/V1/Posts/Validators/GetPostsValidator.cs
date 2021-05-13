@@ -1,5 +1,4 @@
-﻿using Application.Common.Interfaces;
-using Application.Common.Validation;
+﻿using Application.Common.Validation;
 using Application.V1.Posts.Queries;
 using Domain.Enums;
 using System;

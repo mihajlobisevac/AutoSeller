@@ -32,7 +32,7 @@ namespace Infrastructure.Identity
             if (isInRole == true) errors.Add($"User '{email}' is already assigned to role '{roleName}'");
 
             var roleResult = await _userManager.AddToRoleAsync(user, roleName);
-            if (roleResult.Succeeded) return new CQRSResponse();
+            if (roleResult.Succeeded) return CQRSResponse.Success;
 
             errors.Add($"Unable to assign role '{roleName}' to user '{email}'");
 
