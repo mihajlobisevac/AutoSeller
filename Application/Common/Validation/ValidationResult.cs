@@ -5,6 +5,10 @@
         public bool IsSuccessful { get; set; } = true;
         public string[] Errors { get; init; }
 
+        protected ValidationResult()
+        {
+        }
+
         public static ValidationResult Success => new();
 
         public static ValidationResult Fail(string[] errors)
