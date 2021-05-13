@@ -37,7 +37,7 @@ namespace Application.V1.Models.Queries
             }
         }
 
-        public record Response : CQRSResponse, IMapFrom<Model>
+        public record Response : IMapFrom<Model>
         {
             public int Id { get; init; }
             public string Name { get; init; }

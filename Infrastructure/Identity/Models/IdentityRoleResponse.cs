@@ -8,7 +8,7 @@ namespace Infrastructure.Identity.Models
         public string RoleId { get; init; }
         public string RoleName { get; init; }
 
-        public static IdentityRoleResponse Success(IdentityRole role)
+        public static new IdentityRoleResponse Success(IdentityRole role)
             => new()
             {
                 RoleId = role.Id,

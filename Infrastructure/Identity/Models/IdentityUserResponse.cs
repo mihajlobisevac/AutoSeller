@@ -7,7 +7,7 @@ namespace Infrastructure.Identity.Models
         public string UserId { get; init; }
         public string Email { get; init; }
 
-        public static IdentityUserResponse Success(ApplicationUser user)
+        public static new IdentityUserResponse Success(ApplicationUser user)
             => new()
             {
                 UserId = user.Id,

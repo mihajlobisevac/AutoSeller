@@ -17,7 +17,7 @@ namespace Application.V1.Posts.Queries
 {
     public static class GetPosts
     {
-        public record Query : IRequest<Response>
+        public record Query : IRequest<PaginatedList<PostDto>>
         {
             public List<int> BrandIds { get; set; } = new();
             public List<int> ModelIds { get; set; } = new();
@@ -32,7 +32,7 @@ namespace Application.V1.Posts.Queries
             public int PageSize { get; set; } = 10;
         }
 
-        public class Handler : IRequestHandler<Query, Response>
+        public class Handler : IRequestHandler<Query, PaginatedList<PostDto>>
         {
             private readonly IApplicationDbContext _context;
             private readonly IMapper _mapper;
@@ -43,7 +43,7 @@ namespace Application.V1.Posts.Queries
                 _mapper = mapper;
             }
 
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<PaginatedList<PostDto>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var drivetrains = request.Drivetrains?.ToEnumValueArray<Drivetrain>();
                 var transmissions = request.Transmissions?.ToEnumValueArray<Transmission>();
@@ -65,13 +65,8 @@ namespace Application.V1.Posts.Queries
                     .ProjectTo<PostDto>(_mapper.ConfigurationProvider)
                     .PaginatedListAsync(request.PageNumber, request.PageSize);
 
-                return new Response { Posts = posts };
+                return posts;
             }
-        }
-
-        public record Response : CQRSResponse
-        {
-            public PaginatedList<PostDto> Posts { get; init; }
         }
 
         public record PostDto : IMapFrom<Post>

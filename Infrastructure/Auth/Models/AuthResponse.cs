@@ -7,7 +7,7 @@ namespace Infrastructure.Auth.Models
         public string JwtToken { get; init; }
         public string RefreshToken { get; init; }
 
-        public static AuthResponse Success(string jwtToken, string refreshToken)
+        public static new AuthResponse Success(string jwtToken, string refreshToken)
             => new()
             {
                 JwtToken = jwtToken,

@@ -24,10 +24,10 @@ namespace WebAPI.Controllers.V1
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] GetPosts.Query query)
         {
-            var post = await Mediator.Send(query);
+            var posts = await Mediator.Send(query);
 
-            return post is not null
-                ? Ok(post)
+            return posts is not null
+                ? Ok(posts)
                 : NotFound();
         }
 
