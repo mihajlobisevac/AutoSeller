@@ -1,6 +1,6 @@
 ﻿using Application.Common.Models;
 
-namespace Infrastructure.Identity
+namespace Infrastructure.Identity.Models
 {
     public record IdentityUserResponse : CQRSResponse
     {

@@ -1,4 +1,4 @@
-﻿using Infrastructure.Identity;
+﻿using Infrastructure.Identity.Models;
 using System;
 
 namespace Infrastructure.Auth

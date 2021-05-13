@@ -1,7 +1,7 @@
 ﻿using Application.Common.Models;
 using Microsoft.AspNetCore.Identity;
 
-namespace Infrastructure.Identity
+namespace Infrastructure.Identity.Models
 {
     public record IdentityRoleResponse : CQRSResponse
     {

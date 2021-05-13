@@ -1,4 +1,4 @@
-﻿using Infrastructure.Identity;
+﻿using Infrastructure.Identity.Models;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;

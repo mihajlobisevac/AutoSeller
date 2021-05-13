@@ -1,4 +1,5 @@
 ﻿using Application.Common.Models;
+using Infrastructure.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Linq;
 

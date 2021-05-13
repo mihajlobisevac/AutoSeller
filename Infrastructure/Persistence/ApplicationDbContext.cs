@@ -3,7 +3,7 @@ using Domain.Common;
 using Domain.Entities;
 using IdentityServer4.EntityFramework.Options;
 using Infrastructure.Auth;
-using Infrastructure.Identity;
+using Infrastructure.Identity.Models;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
