@@ -2,7 +2,7 @@
 using Domain.Common;
 using Domain.Entities;
 using IdentityServer4.EntityFramework.Options;
-using Infrastructure.Auth;
+using Infrastructure.Auth.Models;
 using Infrastructure.Identity.Models;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;

@@ -1,6 +1,7 @@
 ﻿using Application.Common.Extensions;
 using Application.Common.Interfaces;
 using Application.Common.Models;
+using Infrastructure.Auth.Models;
 using Infrastructure.Identity.Models;
 using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Identity;

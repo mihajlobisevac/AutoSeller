@@ -1,6 +1,6 @@
 ﻿using Application.Common.Models;
 
-namespace Infrastructure.Auth
+namespace Infrastructure.Auth.Models
 {
     public record AuthResponse : CQRSResponse
     {
