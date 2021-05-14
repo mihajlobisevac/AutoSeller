@@ -8,6 +8,36 @@ namespace Domain.UnitTests.Extensions
     public class EnumExtensionsTests
     {
         [Theory]
+        [InlineData(new int[] { 0, 1, 2, 3 }, new string[] { "Unknown", "Sedan", "Coupe", "Sports" })]
+        [InlineData(new int[] { 7, 8, 9, 4 }, new string[] { "SUV", "Minivan", "Pickup", "Wagon" })]
+        public void ToEnumValueArray_ShouldConvertListOfStringsIntoArrayOfBodyStyleValues(int[] expected, string[] nameArray)
+        {
+            //arrange
+            var nameList = nameArray.ToList();
+
+            //act
+            var actual = nameList.ToEnumValueArray<BodyStyle>();
+
+            //assert
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData(new int[] { 1, 2 }, new string[] { "Manual", "Automatic" })]
+        [InlineData(new int[] { 3, 4 }, new string[] { "SemiAutomatic", "CVT" })]
+        public void ToEnumValueArray_ShouldConvertListOfStringsIntoArrayOfTransmissionValues(int[] expected, string[] nameArray)
+        {
+            //arrange
+            var nameList = nameArray.ToList();
+
+            //act
+            var actual = nameList.ToEnumValueArray<Transmission>();
+
+            //assert
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
         [InlineData(BodyStyle.Unknown, "Unknown")]
         [InlineData(BodyStyle.Sedan, "Sedan")]
         [InlineData(BodyStyle.Coupe, "Coupe")]
