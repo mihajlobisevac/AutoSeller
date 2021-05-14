@@ -1,10 +1,10 @@
 ﻿using Application.Common.Mappings;
 using AutoMapper;
+using Domain.Entities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.Serialization;
+using Xunit;
+using static Application.V1.Brands.Queries.GetBrandByName;
 
 namespace Application.UnitTests.Common.Mappings
 {
@@ -23,6 +23,28 @@ namespace Application.UnitTests.Common.Mappings
             _mapper = _configuration.CreateMapper();
         }
 
+        [Fact]
+        public void ShouldHaveValidConfiguration()
+        {
+            _configuration.AssertConfigurationIsValid();
+        }
 
+        [Theory]
+        [InlineData(typeof(Model), typeof(ModelDto))]
+        public void ShouldSupportMappingFromSourceToDestination(Type source, Type destination)
+        {
+            var instance = GetInstanceOf(source);
+
+            _mapper.Map(instance, source, destination);
+        }
+
+        private object GetInstanceOf(Type type)
+        {
+            if (type.GetConstructor(Type.EmptyTypes) != null)
+                return Activator.CreateInstance(type);
+
+            // Type without parameterless constructor
+            return FormatterServices.GetUninitializedObject(type);
+        }
     }
 }
