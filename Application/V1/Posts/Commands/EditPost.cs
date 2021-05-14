@@ -90,7 +90,9 @@ namespace Application.V1.Posts.Commands
                     .ForMember(dest => dest.Transmission, opt => opt.MapFrom(src => src.Transmission.ToString()))
                     .ForMember(dest => dest.Body, opt => opt.MapFrom(src => src.Body.ToString()))
                     .ForMember(dest => dest.VehicleBrand, opt => opt.MapFrom(src => src.Model.Brand.Name))
-                    .ForMember(dest => dest.VehicleModel, opt => opt.MapFrom(src => src.Model.Name));
+                    .ForMember(dest => dest.VehicleModel, opt => opt.MapFrom(src => src.Model.Name))
+                    .ForMember(dest => dest.IsSuccessful, opt => opt.Ignore())
+                    .ForMember(dest => dest.Errors, opt => opt.Ignore());
             }
         }
     }
