@@ -48,6 +48,13 @@ namespace Application.V1.Models.Commands
         {
             public int Id { get; init; }
             public string Name { get; init; }
+
+            public void Mapping(Profile profile)
+            {
+                profile.CreateMap<Model, Response>()
+                    .ForMember(dest => dest.IsSuccessful, opt => opt.Ignore())
+                    .ForMember(dest => dest.Errors, opt => opt.Ignore());
+            }
         }
     }
 }

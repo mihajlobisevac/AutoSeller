@@ -52,7 +52,9 @@ namespace Application.V1.Models.Commands
             public void Mapping(Profile profile)
             {
                 profile.CreateMap<Model, Response>()
-                    .ForMember(dest => dest.BrandName, opt => opt.MapFrom(src => src.Brand.Name));
+                    .ForMember(dest => dest.BrandName, opt => opt.MapFrom(src => src.Brand.Name))
+                    .ForMember(dest => dest.IsSuccessful, opt => opt.Ignore())
+                    .ForMember(dest => dest.Errors, opt => opt.Ignore());
             }
         }
     }

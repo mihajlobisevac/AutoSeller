@@ -47,6 +47,13 @@ namespace Application.V1.Brands.Commands
             public int Id { get; init; }
             public string Name { get; init; }
             public string Country { get; init; }
+
+            public void Mapping(Profile profile)
+            {
+                profile.CreateMap<Brand, Response>()
+                    .ForMember(dest => dest.IsSuccessful, opt => opt.Ignore())
+                    .ForMember(dest => dest.Errors, opt => opt.Ignore());
+            }
         }
     }
 }

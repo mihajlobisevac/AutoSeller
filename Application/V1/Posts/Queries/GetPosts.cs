@@ -17,7 +17,7 @@ namespace Application.V1.Posts.Queries
 {
     public static class GetPosts
     {
-        public record Query : IRequest<PaginatedList<PostDto>>
+        public record Query : IRequest<PaginatedList<Response>>
         {
             public List<int> BrandIds { get; set; } = new();
             public List<int> ModelIds { get; set; } = new();
@@ -32,7 +32,7 @@ namespace Application.V1.Posts.Queries
             public int PageSize { get; set; } = 10;
         }
 
-        public class Handler : IRequestHandler<Query, PaginatedList<PostDto>>
+        public class Handler : IRequestHandler<Query, PaginatedList<Response>>
         {
             private readonly IApplicationDbContext _context;
             private readonly IMapper _mapper;
@@ -43,7 +43,7 @@ namespace Application.V1.Posts.Queries
                 _mapper = mapper;
             }
 
-            public async Task<PaginatedList<PostDto>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<PaginatedList<Response>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var drivetrains = request.Drivetrains?.ToEnumValueArray<Drivetrain>();
                 var transmissions = request.Transmissions?.ToEnumValueArray<Transmission>();
@@ -62,14 +62,14 @@ namespace Application.V1.Posts.Queries
                     .Where(post => drivetrains.Any(dt => (int)post.Drivetrain == dt) || request.Drivetrains.Count == 0)
                     .Where(post => transmissions.Any(dt => (int)post.Transmission == dt) || request.Transmissions.Count == 0)
                     .Where(post => bodyStyles.Any(dt => (int)post.Body == dt) || request.BodyStyles.Count == 0)
-                    .ProjectTo<PostDto>(_mapper.ConfigurationProvider)
+                    .ProjectTo<Response>(_mapper.ConfigurationProvider)
                     .PaginatedListAsync(request.PageNumber, request.PageSize);
 
                 return posts;
             }
         }
 
-        public record PostDto : IMapFrom<Post>
+        public record Response : IMapFrom<Post>
         {
             public int Id { get; init; }
             public string Title { get; init; }
@@ -79,7 +79,7 @@ namespace Application.V1.Posts.Queries
 
             public void Mapping(Profile profile)
             {
-                profile.CreateMap<Post, PostDto>()
+                profile.CreateMap<Post, Response>()
                     .ForMember(dest => dest.VehicleYear, opt => opt.MapFrom(src => src.Year))
                     .ForMember(dest => dest.VehicleBrand, opt => opt.MapFrom(src => src.Model.Brand.Name))
                     .ForMember(dest => dest.VehicleModel, opt => opt.MapFrom(src => src.Model.Name));
