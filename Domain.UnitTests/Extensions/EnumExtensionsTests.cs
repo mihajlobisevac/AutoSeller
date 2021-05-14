@@ -7,6 +7,59 @@ namespace Domain.UnitTests.Extensions
 {
     public class EnumExtensionsTests
     {
-        
+        [Theory]
+        [InlineData(BodyStyle.Unknown, "Unknown")]
+        [InlineData(BodyStyle.Sedan, "Sedan")]
+        [InlineData(BodyStyle.Coupe, "Coupe")]
+        [InlineData(BodyStyle.Sports, "Sports")]
+        public void ToEnum_ShouldConvertStringToBodyStyle(BodyStyle expected, string name)
+        {
+            //act
+            var actual = name.ToEnum<BodyStyle>();
+
+            //assert
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData(Drivetrain.Unknown, "Unknown")]
+        [InlineData(Drivetrain.AllWheel, "AllWheel")]
+        [InlineData(Drivetrain.RearWheel, "RearWheel")]
+        [InlineData(Drivetrain.FrontWheel, "FrontWheel")]
+        public void ToEnum_ShouldConvertStringToDrivetrain(Drivetrain expected, string name)
+        {
+            //act
+            var actual = name.ToEnum<Drivetrain>();
+
+            //assert
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData(Transmission.Unknown, "Unknown")]
+        [InlineData(Transmission.Manual, "Manual")]
+        [InlineData(Transmission.Automatic, "Automatic")]
+        [InlineData(Transmission.SemiAutomatic, "SemiAutomatic")]
+        [InlineData(Transmission.CVT, "CVT")]
+        public void ToEnum_ShouldConvertStringToTransmission(Transmission expected, string name)
+        {
+            //act
+            var actual = name.ToEnum<Transmission>();
+
+            //assert
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData(SellerType.Dealer, "Dealer")]
+        [InlineData(SellerType.Individual, "Individual")]
+        public void ToEnum_ShouldConvertStringToSellerType(SellerType expected, string name)
+        {
+            //act
+            var actual = name.ToEnum<SellerType>();
+
+            //assert
+            Assert.Equal(expected, actual);
+        }
     }
 }
